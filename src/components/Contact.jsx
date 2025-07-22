@@ -1,6 +1,9 @@
-import React from 'react'
+import React, { useRef, useState } from 'react'
+import emailjs from '@emailjs/browser';
+import { Bounce, ToastContainer, toast } from 'react-toastify';
 
 const Contact = () => {
+
   const openGoogleMaps = () => {
     const address = 'Roorkee Institute of Technology, Puhana - Jhabrera Rd, Nanheda Anantpur, Uttarakhand 247668';
     const encodedAddress = encodeURIComponent(address);
@@ -25,8 +28,65 @@ const Contact = () => {
     window.open(whatsappUrl, '_blank');
   }
 
+  const form = useRef();
+  const [sending, setSending] = useState(false)
+
+  const sendEmail = (e) => {
+    e.preventDefault();
+    setSending(true)
+    emailjs
+      .sendForm('service_njo0l3o', 'template_08ucynt', form.current, {
+        publicKey: 'gtKtVdiRtFbwercWi',
+      })
+      .then(
+        () => {
+          console.log('SUCCESS!');
+          toast.success('Message Successfull Sent!!', {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            transition: Bounce,
+          })
+          form.current.reset()
+          setSending(false)
+        },
+        (error) => {
+          console.log('FAILED...', error.text);
+          toast.error('Sorry some error Occurred!', {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            transition: Bounce,
+          });
+        },
+      );
+  };
+
   return (
     <section className="contact section bd-container" id="contact">
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        transition={Bounce}
+      />
       <span className="section-subtitle">For Projects</span>
       <h2 className="section-title">Contact Me</h2>
 
@@ -58,13 +118,13 @@ const Contact = () => {
           </div>
         </div>
 
-        <form action="" className="contact__form">
+        <form ref={form} onSubmit={sendEmail} className="contact__form">
           <input type="text" name="name" id="name" placeholder="Name" className="contact__input" />
           <input type="email" name="email" id="email" placeholder="Email" className="contact__input" />
 
           <textarea name="message" id="message" cols="0" rows="7" placeholder="Message"
             className="contact__input"></textarea>
-          <input type="submit" id="button" value="Send Message" className="button contact__button" />
+          <input type="submit" id="button" value={sending ? "Sending" : "Send Message"} className="button contact__button" />
         </form>
       </div>
     </section>

@@ -11,11 +11,30 @@ import ProjectInMind from './components/ProjectInMind'
 import Testimonial from './components/Testimonial'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
+import { useEffect, useState } from 'react'
 
 function App() {
+  const [isScrolled, setIsScrolled] = useState(false)
+
+  useEffect(() => {
+    const scrollTop = () => {
+      setIsScrolled(window.scrollY >= 560)
+    }
+    scrollTop()
+
+    window.addEventListener('scroll', scrollTop)
+
+    return () => {
+      window.removeEventListener('scroll', scrollTop)
+    }
+  }, [])
+
 
   return (
     <>
+      <a href="#" className={`scrolltop ${isScrolled ? "show-scroll" : ''}`} id="scroll-top">
+        <i className="bx bx-chevron-up scrolltop__icon"></i>
+      </a>
       <Navbar />
       <main className='l-main'>
         <Home />

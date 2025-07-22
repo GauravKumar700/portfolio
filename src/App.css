@@ -688,6 +688,31 @@ img {
 }
 
 /*===== CONTACTME =====*/
+.Toastify__toast {
+  color: var(--first-color-dark);
+  font-family: var(--body-font);
+  font-size: var(--normal-font-size);
+  font-weight: var(--font-medium);
+  background-color: var(--first-color-lighten);
+  color: var(--text-color);
+}
+
+.Toastify__progress-bar {
+  background-color: var(--first-color);
+}
+
+.Toastify__progress-bar--bg {
+  background: #7b6f71b3;
+}
+
+.Toastify__toast-icon>svg {
+  fill: var(--first-color);
+}
+
+.Toastify__close-button:hover {
+  color: var(--first-color);
+}
+
 .contact__container {
   row-gap: 2.5rem;
 }
